@@ -16,7 +16,7 @@ public class Invoice {
     }
 
     int getVolumeCredits(Map<String, Play> plays) {
-        return performances.stream().mapToInt(performance -> performance.volumeCreditsToAdd(plays)).sum();
+        return performances.stream().mapToInt(performance -> performance.volumeCredit(plays)).sum();
     }
 
 }
