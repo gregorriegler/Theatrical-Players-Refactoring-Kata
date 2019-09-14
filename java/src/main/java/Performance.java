@@ -43,4 +43,12 @@ public class Performance {
                 throw new Error("unknown type: ${performance.getPlay(plays).type}");
         }
     }
+
+    int calculateVolumeCredits(Map<String, Play> plays, int volumeCredits) {
+        // add volume credits
+        volumeCredits += Math.max(audience - 30, 0);
+        // add extra credit for every ten comedy attendees
+        if ("comedy".equals(getType(plays))) volumeCredits += Math.floor(audience / 5);
+        return volumeCredits;
+    }
 }

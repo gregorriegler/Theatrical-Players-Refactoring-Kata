@@ -18,4 +18,12 @@ public class Invoice {
         }
         return totalAmount;
     }
+
+    int getVolumeCredits(Map<String, Play> plays) {
+        var volumeCredits = 0;
+        for (var performance : performances) {
+            volumeCredits = performance.calculateVolumeCredits(plays, volumeCredits);
+        }
+        return volumeCredits;
+    }
 }
