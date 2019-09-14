@@ -12,18 +12,11 @@ public class Invoice {
     }
 
     int getTotalAmount(Map<String, Play> plays) {
-        var totalAmount = 0;
-        for (var performance : performances) {
-            totalAmount += performance.amount(plays);
-        }
-        return totalAmount;
+        return performances.stream().mapToInt(performance -> performance.amount(plays)).sum();
     }
 
     int getVolumeCredits(Map<String, Play> plays) {
-        var volumeCredits = 0;
-        for (var performance : performances) {
-            volumeCredits = performance.calculateVolumeCredits(plays, volumeCredits);
-        }
-        return volumeCredits;
+        return performances.stream().mapToInt(performance -> performance.volumeCreditsToAdd(plays)).sum();
     }
+
 }

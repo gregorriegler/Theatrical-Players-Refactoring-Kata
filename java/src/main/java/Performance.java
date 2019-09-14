@@ -44,11 +44,11 @@ public class Performance {
         }
     }
 
-    int calculateVolumeCredits(Map<String, Play> plays, int volumeCredits) {
-        // add volume credits
-        volumeCredits += Math.max(audience - 30, 0);
+    int volumeCreditsToAdd(Map<String, Play> plays) {
+        var volumeCreditsToAdd = 0;
+        volumeCreditsToAdd += Math.max(audience - 30, 0);
         // add extra credit for every ten comedy attendees
-        if ("comedy".equals(getType(plays))) volumeCredits += Math.floor(audience / 5);
-        return volumeCredits;
+        if ("comedy".equals(getType(plays))) volumeCreditsToAdd += Math.floor(audience / 5);
+        return volumeCreditsToAdd;
     }
 }
