@@ -1,34 +1,32 @@
 import java.util.Arrays;
-import java.util.Map;
 
 public class Performance {
 
-    public String playID;
-    public int audience;
+    final String playID;
+    final int audience;
+    private Play play;
+    private PerformanceType type;
 
     public Performance(String playID, int audience) {
         this.playID = playID;
         this.audience = audience;
     }
 
-    private Play getPlay(Map<String, Play> plays) {
-        return plays.get(playID);
+    void setPlay(Play play) {
+        this.play = play;
+        this.type = PerformanceType.of(play.type);
     }
 
-    String getName(Map<String, Play> plays) {
-        return getPlay(plays).name;
+    String getName() {
+        return play.name;
     }
 
-    int amount(Map<String, Play> plays) {
-        return getType(plays).amount(audience);
+    int amount() {
+        return type.amount(audience);
     }
 
-    int volumeCredit(Map<String, Play> plays) {
-        return getType(plays).volumeCredit(audience);
-    }
-
-    PerformanceType getType(Map<String, Play> plays) {
-        return PerformanceType.of(getPlay(plays).type);
+    int volumeCredit() {
+        return type.volumeCredit(audience);
     }
 
     public enum PerformanceType implements AmountCalculator, VolumeCreditCalculator {
@@ -61,9 +59,9 @@ public class Performance {
 
         public static PerformanceType of(String type) {
             if (Arrays.stream(PerformanceType.values())
-                .map(value -> value.name())
+                .map(Enum::name)
                 .noneMatch(name -> name.equals(type))) {
-                throw new Error("unknown type: ${performance.getPlay(plays).type}");
+                throw new Error("unknown type: ${performance.type}");
             }
             return PerformanceType.valueOf(type);
         }

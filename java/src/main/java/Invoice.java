@@ -3,20 +3,23 @@ import java.util.Map;
 
 public class Invoice {
 
-    public String customer;
-    public List<Performance> performances;
+    final String customer;
+    final List<Performance> performances;
 
-    public Invoice(String customer, List<Performance> performances) {
+    public Invoice(String customer, List<Performance> performances, Map<String, Play> plays) {
         this.customer = customer;
         this.performances = performances;
+        for (Performance performance : this.performances) {
+            performance.setPlay(plays.get(performance.playID));
+        }
     }
 
-    int getTotalAmount(Map<String, Play> plays) {
-        return performances.stream().mapToInt(performance -> performance.amount(plays)).sum();
+    int getTotalAmount() {
+        return performances.stream().mapToInt(Performance::amount).sum();
     }
 
-    int getVolumeCredits(Map<String, Play> plays) {
-        return performances.stream().mapToInt(performance -> performance.volumeCredit(plays)).sum();
+    int getVolumeCredits() {
+        return performances.stream().mapToInt(Performance::volumeCredit).sum();
     }
 
 }
