@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.approvaltests.Approvals.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StatementPrinterTests {
 
@@ -34,15 +35,13 @@ public class StatementPrinterTests {
             "henry-v", new Play("Henry V", "history"),
             "as-like", new Play("As You Like It", "pastoral"));
 
-        Assertions.assertThrows(Error.class, () -> {
-            new Invoice(
-                "BigCo",
-                List.of(
-                    new Performance("henry-v", 53),
-                    new Performance("as-like", 55)
-                ),
-                plays
-            );
-        });
+        assertThrows(Error.class, () -> new Invoice(
+            "BigCo",
+            List.of(
+                new Performance("henry-v", 53),
+                new Performance("as-like", 55)
+            ),
+            plays
+        ));
     }
 }
