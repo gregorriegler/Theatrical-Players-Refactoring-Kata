@@ -33,7 +33,7 @@ public class StatementPrinter {
             performanceData.name = performanceName;
             performanceData.amount = performanceAmount;
             performanceData.audience = audience;
-            result.append(String.format("  %s: %s (%s seats)\n", performanceName, frmt.format(performanceAmount), audience));
+            result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceAmount), audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
