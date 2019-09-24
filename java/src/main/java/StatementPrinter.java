@@ -1,6 +1,4 @@
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,16 +21,15 @@ public class StatementPrinter {
 
         InvoiceData invoiceData = new InvoiceData();
         invoiceData.customer = invoice.customer;
-        return asPrintableReport(invoiceData, invoice, plays, totalAmount, volumeCredits);
-    }
-
-    private String asPrintableReport(InvoiceData invoiceData, Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
-
         List<InvoicePerformanceData> performanceDataList = invoice.performances
             .stream()
             .map(perf -> InvoicePerformanceData.create(plays, perf))
             .collect(Collectors.toList());
+        return asPrintableReport(invoiceData, totalAmount, volumeCredits, performanceDataList);
+    }
+
+    private String asPrintableReport(InvoiceData invoiceData, int totalAmount, int volumeCredits, List<InvoicePerformanceData> performanceDataList) {
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var performanceData : performanceDataList) {
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
