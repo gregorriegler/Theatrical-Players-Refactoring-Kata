@@ -35,7 +35,7 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private InvoicePerformanceData createInvoicePerformanceData(Map<String, Play> plays, Performance perf) {
+    private static InvoicePerformanceData createInvoicePerformanceData(Map<String, Play> plays, Performance perf) {
         InvoicePerformanceData performanceData = new InvoicePerformanceData();
         performanceData.name = perf.play(plays).name;
         performanceData.amount = perf.amount(perf.play(plays)) / 100;
@@ -54,7 +54,7 @@ public class StatementPrinter {
         public String customer;
     }
 
-    private class InvoicePerformanceData {
+    private static class InvoicePerformanceData {
         public String name;
         public int amount;
         public int audience;
