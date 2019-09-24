@@ -21,6 +21,7 @@ public class StatementPrinter {
     }
 
     private String asPrintableReport(Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
+        InvoiceData invoiceData = new InvoiceData();
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
@@ -39,4 +40,6 @@ public class StatementPrinter {
         return volumeCredits;
     }
 
+    private class InvoiceData {
+    }
 }
