@@ -36,4 +36,11 @@ public class Performance {
     Play play(Map<String, Play> plays) {
         return plays.get(playID);
     }
+
+    int addVolumeCredits(Map<String, Play> plays, int volumeCredits) {
+        volumeCredits += Math.max(audience - 30, 0);
+        // add extra credit for every ten comedy attendees
+        if ("comedy".equals(play(plays).type)) volumeCredits += Math.floor(audience / 5);
+        return volumeCredits;
+    }
 }

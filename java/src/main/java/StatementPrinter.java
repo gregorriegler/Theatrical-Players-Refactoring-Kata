@@ -9,25 +9,20 @@ public class StatementPrinter {
     private final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        var totalAmount = 0;
-        for (var perf : invoice.performances) {
-            totalAmount += perf.amount(perf.play(plays));
-        }
+        InvoiceData invoiceData = createInvoiceData(invoice, plays);
+        return asPrintableReport(invoiceData);
+    }
 
-        var volumeCredits = 0;
-        for (var perf : invoice.performances) {
-            volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
-        }
-
+    private InvoiceData createInvoiceData(Invoice invoice, Map<String, Play> plays) {
         InvoiceData invoiceData = new InvoiceData();
         invoiceData.customer = invoice.customer;
         invoiceData.performances = invoice.performances
             .stream()
             .map(perf -> InvoicePerformanceData.create(plays, perf))
             .collect(Collectors.toList());
-        invoiceData.totalAmount = totalAmount / 100;
-        invoiceData.volumeCredits = volumeCredits;
-        return asPrintableReport(invoiceData);
+        invoiceData.totalAmount = invoice.calcTotal(plays) / 100;
+        invoiceData.volumeCredits = invoice.calcVolumeCredits(plays);
+        return invoiceData;
     }
 
     private String asPrintableReport(InvoiceData invoiceData) {
@@ -40,13 +35,6 @@ public class StatementPrinter {
         result.append(String.format("Amount owed is %s\n", frmt.format(invoiceData.totalAmount)));
         result.append(String.format("You earned %s credits\n", invoiceData.volumeCredits));
         return result.toString();
-    }
-
-    private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
-        volumeCredits += Math.max(perf.audience - 30, 0);
-        // add extra credit for every ten comedy attendees
-        if ("comedy".equals(perf.play(plays).type)) volumeCredits += Math.floor(perf.audience / 5);
-        return volumeCredits;
     }
 
     private class InvoiceData {
