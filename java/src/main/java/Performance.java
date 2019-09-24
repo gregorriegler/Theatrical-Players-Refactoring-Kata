@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class Performance {
 
     public String playID;
@@ -29,5 +31,9 @@ public class Performance {
                 throw new Error("unknown type: ${play.type}");
         }
         return thisAmount;
+    }
+
+    Play getPlay(Map<String, Play> plays) {
+        return plays.get(playID);
     }
 }

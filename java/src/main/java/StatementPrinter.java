@@ -12,7 +12,7 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
-            var play = plays.get(perf.playID);
+            var play = perf.getPlay(plays);
 
             totalAmount += perf.amount(play);
 
