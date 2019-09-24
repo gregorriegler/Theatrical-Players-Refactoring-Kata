@@ -1,5 +1,6 @@
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,9 +34,10 @@ public class StatementPrinter {
             performanceDataList.add(performanceData);
         }
 
+        Iterator<InvoicePerformanceData> iterator = performanceDataList.iterator();
         for (var perf : invoice.performances) {
-            InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
-            result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
+            InvoicePerformanceData next = iterator.next();
+            result.append(String.format("  %s: %s (%s seats)\n", next.name, frmt.format(next.amount), next.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
