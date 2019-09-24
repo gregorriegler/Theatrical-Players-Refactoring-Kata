@@ -9,7 +9,6 @@ public class StatementPrinter {
     public String print(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
         var volumeCredits = 0;
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
             totalAmount += perf.amount(perf.play(plays));
@@ -18,6 +17,9 @@ public class StatementPrinter {
         for (var perf : invoice.performances) {
             volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
         }
+
+        
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
             result.append(String.format("  %s: %s (%s seats)\n", perf.play(plays).name, frmt.format(perf.amount(perf.play(plays)) / 100), perf.audience));
