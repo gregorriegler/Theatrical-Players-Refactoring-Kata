@@ -18,10 +18,9 @@ public class Invoice {
     }
 
     int calcVolumeCredits(Map<String, Play> plays) {
-        var volumeCredits = 0;
-        for (var perf : performances) {
-            volumeCredits += perf.volumeCredits(plays);
-        }
+        var volumeCredits = performances.stream()
+            .mapToInt(perf -> perf.volumeCredits(plays))
+            .sum();
         return volumeCredits;
     }
 }
