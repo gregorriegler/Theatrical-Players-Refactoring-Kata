@@ -17,7 +17,10 @@ public class StatementPrinter {
             volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
         }
 
+        return asPrintableReport(invoice, plays, totalAmount, volumeCredits);
+    }
 
+    private String asPrintableReport(Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
