@@ -33,7 +33,7 @@ public class Performance {
         return thisAmount;
     }
 
-    Play getPlay(Map<String, Play> plays) {
+    Play play(Map<String, Play> plays) {
         return plays.get(playID);
     }
 }
