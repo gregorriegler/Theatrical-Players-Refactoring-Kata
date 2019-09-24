@@ -27,6 +27,10 @@ public class StatementPrinter {
 
         for (var perf : invoice.performances) {
             InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
+        }
+
+        for (var perf : invoice.performances) {
+            InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
