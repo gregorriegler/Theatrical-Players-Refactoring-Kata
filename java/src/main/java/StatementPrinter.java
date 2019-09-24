@@ -1,4 +1,6 @@
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,8 +27,10 @@ public class StatementPrinter {
     private String asPrintableReport(InvoiceData invoiceData, Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
+        List<InvoicePerformanceData> performanceDataList = new ArrayList<>();
         for (var perf : invoice.performances) {
             InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
+            performanceDataList.add(performanceData);
         }
 
         for (var perf : invoice.performances) {
