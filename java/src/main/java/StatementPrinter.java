@@ -15,9 +15,7 @@ public class StatementPrinter {
             totalAmount += perf.amount(perf.play(plays));
 
             // add volume credits
-            volumeCredits += Math.max(perf.audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy".equals(perf.play(plays).type)) volumeCredits += Math.floor(perf.audience / 5);
+            volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
 
 
             // print line for this order
@@ -26,6 +24,13 @@ public class StatementPrinter {
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
+        volumeCredits += Math.max(perf.audience - 30, 0);
+        // add extra credit for every ten comedy attendees
+        if ("comedy".equals(perf.play(plays).type)) volumeCredits += Math.floor(perf.audience / 5);
+        return volumeCredits;
     }
 
 }
