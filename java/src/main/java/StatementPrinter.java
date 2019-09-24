@@ -28,10 +28,10 @@ public class StatementPrinter {
             .collect(Collectors.toList());
 
         invoiceData.performances = performanceDataList;
-        return asPrintableReport(invoiceData, totalAmount, volumeCredits, performanceDataList);
+        return asPrintableReport(invoiceData, totalAmount, volumeCredits);
     }
 
-    private String asPrintableReport(InvoiceData invoiceData, int totalAmount, int volumeCredits, List<InvoicePerformanceData> performanceDataList) {
+    private String asPrintableReport(InvoiceData invoiceData, int totalAmount, int volumeCredits) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var performanceData : invoiceData.performances) {
