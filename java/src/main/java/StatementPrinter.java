@@ -13,15 +13,16 @@ public class StatementPrinter {
 
         for (var perf : invoice.performances) {
             totalAmount += perf.amount(perf.play(plays));
-
-            // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", perf.play(plays).name, frmt.format(perf.amount(perf.play(plays)) / 100), perf.audience));
         }
 
         for (var perf : invoice.performances) {
             volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
         }
-        
+
+        for (var perf : invoice.performances) {
+            result.append(String.format("  %s: %s (%s seats)\n", perf.play(plays).name, frmt.format(perf.amount(perf.play(plays)) / 100), perf.audience));
+        }
+
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
