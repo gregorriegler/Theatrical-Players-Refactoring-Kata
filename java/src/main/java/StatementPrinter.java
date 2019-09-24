@@ -34,9 +34,7 @@ public class StatementPrinter {
             performanceDataList.add(performanceData);
         }
 
-        Iterator<InvoicePerformanceData> iterator = performanceDataList.iterator();
-        for (var perf : invoice.performances) {
-            InvoicePerformanceData next = iterator.next();
+        for (var next : performanceDataList) {
             result.append(String.format("  %s: %s (%s seats)\n", next.name, frmt.format(next.amount), next.audience));
         }
 
