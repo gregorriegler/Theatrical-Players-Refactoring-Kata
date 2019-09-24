@@ -26,10 +26,11 @@ public class StatementPrinter {
             .map(perf -> InvoicePerformanceData.create(plays, perf))
             .collect(Collectors.toList());
         invoiceData.totalAmount = totalAmount / 100;
-        return asPrintableReport(invoiceData, volumeCredits);
+        invoiceData.volumeCredits = volumeCredits;
+        return asPrintableReport(invoiceData);
     }
 
-    private String asPrintableReport(InvoiceData invoiceData, int volumeCredits) {
+    private String asPrintableReport(InvoiceData invoiceData) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var performanceData : invoiceData.performances) {
@@ -37,7 +38,7 @@ public class StatementPrinter {
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(invoiceData.totalAmount)));
-        result.append(String.format("You earned %s credits\n", volumeCredits));
+        result.append(String.format("You earned %s credits\n", invoiceData.volumeCredits));
         return result.toString();
     }
 
@@ -52,6 +53,7 @@ public class StatementPrinter {
         public String customer;
         public List<InvoicePerformanceData> performances;
         public int totalAmount;
+        public int volumeCredits;
     }
 
     private static class InvoicePerformanceData {
