@@ -37,7 +37,8 @@ public class Performance {
         return plays.get(playID);
     }
 
-    int addVolumeCredits(Map<String, Play> plays, int volumeCredits) {
+    int addVolumeCredits(Map<String, Play> plays) {
+        int volumeCredits = 0;
         volumeCredits += Math.max(audience - 30, 0);
         // add extra credit for every ten comedy attendees
         if ("comedy".equals(play(plays).type)) volumeCredits += Math.floor(audience / 5);

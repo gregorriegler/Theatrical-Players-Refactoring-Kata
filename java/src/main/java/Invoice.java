@@ -20,7 +20,7 @@ public class Invoice {
     int calcVolumeCredits(Map<String, Play> plays) {
         var volumeCredits = 0;
         for (var perf : performances) {
-            volumeCredits = perf.addVolumeCredits(plays, volumeCredits);
+            volumeCredits += perf.addVolumeCredits(plays);
         }
         return volumeCredits;
     }
