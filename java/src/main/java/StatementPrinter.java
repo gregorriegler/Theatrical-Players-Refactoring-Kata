@@ -9,20 +9,8 @@ public class StatementPrinter {
     private final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        InvoiceData invoiceData = createInvoiceData(invoice, plays);
+        InvoiceData invoiceData = InvoiceData.create(invoice, plays);
         return asPrintableReport(invoiceData);
-    }
-
-    private InvoiceData createInvoiceData(Invoice invoice, Map<String, Play> plays) {
-        InvoiceData invoiceData = new InvoiceData();
-        invoiceData.customer = invoice.customer;
-        invoiceData.performances = invoice.performances
-            .stream()
-            .map(perf -> InvoicePerformanceData.create(plays, perf))
-            .collect(Collectors.toList());
-        invoiceData.totalAmount = invoice.calcTotal(plays) / 100;
-        invoiceData.volumeCredits = invoice.calcVolumeCredits(plays);
-        return invoiceData;
     }
 
     private String asPrintableReport(InvoiceData invoiceData) {
@@ -37,11 +25,22 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private class InvoiceData {
+    private static class InvoiceData {
         public String customer;
         public List<InvoicePerformanceData> performances;
         public int totalAmount;
         public int volumeCredits;
+
+        private static InvoiceData create(Invoice invoice, Map<String, Play> plays) {
+            InvoiceData invoiceData = new InvoiceData();
+            invoiceData.customer = invoice.customer;
+            invoiceData.performances = invoice.performances.stream()
+                .map(perf -> InvoicePerformanceData.create(plays, perf))
+                .collect(Collectors.toList());
+            invoiceData.totalAmount = invoice.calcTotal(plays) / 100;
+            invoiceData.volumeCredits = invoice.calcVolumeCredits(plays);
+            return invoiceData;
+        }
     }
 
     private static class InvoicePerformanceData {
