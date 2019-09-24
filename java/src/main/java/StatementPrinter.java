@@ -23,7 +23,7 @@ public class StatementPrinter {
     }
 
     private String asPrintableReport(InvoiceData invoiceData, Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var perf : invoice.performances) {
             result.append(String.format("  %s: %s (%s seats)\n", perf.play(plays).name, frmt.format(perf.amount(perf.play(plays)) / 100), perf.audience));
