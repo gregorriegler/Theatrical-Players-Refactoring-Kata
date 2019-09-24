@@ -34,7 +34,7 @@ public class StatementPrinter {
     private String asPrintableReport(InvoiceData invoiceData, int totalAmount, int volumeCredits, List<InvoicePerformanceData> performanceDataList) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
-        for (var performanceData : performanceDataList) {
+        for (var performanceData : invoiceData.performances) {
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
