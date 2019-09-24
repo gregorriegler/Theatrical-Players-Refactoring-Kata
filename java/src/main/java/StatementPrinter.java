@@ -21,6 +21,7 @@ public class StatementPrinter {
         for (var perf : invoice.performances) {
             volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
         }
+        
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
