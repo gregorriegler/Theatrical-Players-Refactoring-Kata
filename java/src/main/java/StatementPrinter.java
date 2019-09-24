@@ -26,21 +26,13 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var perf : invoice.performances) {
-            InvoicePerformanceData performanceData = createInvoicePerformanceData(plays, perf);
+            InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
-    }
-
-    private static InvoicePerformanceData createInvoicePerformanceData(Map<String, Play> plays, Performance perf) {
-        InvoicePerformanceData performanceData = new InvoicePerformanceData();
-        performanceData.name = perf.play(plays).name;
-        performanceData.amount = perf.amount(perf.play(plays)) / 100;
-        performanceData.audience = perf.audience;
-        return performanceData;
     }
 
     private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
@@ -58,5 +50,13 @@ public class StatementPrinter {
         public String name;
         public int amount;
         public int audience;
+
+        private static InvoicePerformanceData create(Map<String, Play> plays, Performance perf) {
+            InvoicePerformanceData performanceData = new InvoicePerformanceData();
+            performanceData.name = perf.play(plays).name;
+            performanceData.amount = perf.amount(perf.play(plays)) / 100;
+            performanceData.audience = perf.audience;
+            return performanceData;
+        }
     }
 }
