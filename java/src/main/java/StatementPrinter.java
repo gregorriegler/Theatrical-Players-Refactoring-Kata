@@ -14,9 +14,7 @@ public class StatementPrinter {
         for (var perf : invoice.performances) {
             var play = plays.get(perf.playID);
 
-            int thisAmount = perf.amount(play);
-
-            totalAmount += thisAmount;
+            totalAmount += perf.amount(play);
 
             // add volume credits
             volumeCredits += Math.max(perf.audience - 30, 0);
@@ -25,7 +23,7 @@ public class StatementPrinter {
 
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount / 100), perf.audience));
+            result.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(perf.amount(play) / 100), perf.audience));
         }
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
