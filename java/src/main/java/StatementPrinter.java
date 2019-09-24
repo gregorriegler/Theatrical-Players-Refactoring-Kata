@@ -4,12 +4,12 @@ import java.util.Map;
 
 public class StatementPrinter {
 
+    private final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+
     public String print(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
         var volumeCredits = 0;
         var result = String.format("Statement for %s\n", invoice.customer);
-
-        NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (var perf : invoice.performances) {
             var play = plays.get(perf.playID);
