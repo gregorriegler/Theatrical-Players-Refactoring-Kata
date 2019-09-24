@@ -36,13 +36,10 @@ public class StatementPrinter {
     }
 
     private InvoicePerformanceData createInvoicePerformanceData(Map<String, Play> plays, Performance perf) {
-        String performanceName = perf.play(plays).name;
-        int performanceAmount = perf.amount(perf.play(plays)) / 100;
-        int audience = perf.audience;
         InvoicePerformanceData performanceData = new InvoicePerformanceData();
-        performanceData.name = performanceName;
-        performanceData.amount = performanceAmount;
-        performanceData.audience = audience;
+        performanceData.name = perf.play(plays).name;
+        performanceData.amount = perf.amount(perf.play(plays)) / 100;
+        performanceData.audience = perf.audience;
         return performanceData;
     }
 
