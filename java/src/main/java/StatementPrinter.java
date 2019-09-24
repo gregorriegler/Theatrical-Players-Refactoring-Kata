@@ -34,8 +34,8 @@ public class StatementPrinter {
             performanceDataList.add(performanceData);
         }
 
-        for (var next : performanceDataList) {
-            result.append(String.format("  %s: %s (%s seats)\n", next.name, frmt.format(next.amount), next.audience));
+        for (var performanceData : performanceDataList) {
+            result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
