@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StatementPrinter {
 
@@ -28,11 +29,10 @@ public class StatementPrinter {
     private String asPrintableReport(InvoiceData invoiceData, Invoice invoice, Map<String, Play> plays, int totalAmount, int volumeCredits) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
-        List<InvoicePerformanceData> performanceDataList = new ArrayList<>();
-        for (var perf : invoice.performances) {
-            InvoicePerformanceData performanceData = InvoicePerformanceData.create(plays, perf);
-            performanceDataList.add(performanceData);
-        }
+        List<InvoicePerformanceData> performanceDataList = invoice.performances
+            .stream()
+            .map(perf -> InvoicePerformanceData.create(plays, perf))
+            .collect(Collectors.toList());
 
         for (var performanceData : performanceDataList) {
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
