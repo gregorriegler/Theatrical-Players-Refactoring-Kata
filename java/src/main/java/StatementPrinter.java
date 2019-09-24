@@ -21,10 +21,13 @@ public class StatementPrinter {
 
         InvoiceData invoiceData = new InvoiceData();
         invoiceData.customer = invoice.customer;
+
         List<InvoicePerformanceData> performanceDataList = invoice.performances
             .stream()
             .map(perf -> InvoicePerformanceData.create(plays, perf))
             .collect(Collectors.toList());
+
+        invoiceData.performances = performanceDataList;
         return asPrintableReport(invoiceData, totalAmount, volumeCredits, performanceDataList);
     }
 
@@ -49,6 +52,7 @@ public class StatementPrinter {
 
     private class InvoiceData {
         public String customer;
+        public List<InvoicePerformanceData> performances;
     }
 
     private static class InvoicePerformanceData {
