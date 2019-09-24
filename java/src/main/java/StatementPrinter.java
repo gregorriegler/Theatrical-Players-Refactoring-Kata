@@ -26,7 +26,14 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var perf : invoice.performances) {
-            result.append(String.format("  %s: %s (%s seats)\n", perf.play(plays).name, frmt.format(perf.amount(perf.play(plays)) / 100), perf.audience));
+            String performanceName = perf.play(plays).name;
+            int performanceAmount = perf.amount(perf.play(plays)) / 100;
+            int audience = perf.audience;
+            InvoicePerformanceData performanceData = new InvoicePerformanceData();
+            performanceData.name = performanceName;
+            performanceData.amount = performanceAmount;
+            performanceData.audience = audience;
+            result.append(String.format("  %s: %s (%s seats)\n", performanceName, frmt.format(performanceAmount), audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
@@ -43,5 +50,11 @@ public class StatementPrinter {
 
     private class InvoiceData {
         public String customer;
+    }
+
+    private class InvoicePerformanceData {
+        public String name;
+        public int amount;
+        public int audience;
     }
 }
