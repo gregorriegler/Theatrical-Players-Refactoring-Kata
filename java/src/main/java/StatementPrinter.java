@@ -26,19 +26,24 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var perf : invoice.performances) {
-            String performanceName = perf.play(plays).name;
-            int performanceAmount = perf.amount(perf.play(plays)) / 100;
-            int audience = perf.audience;
-            InvoicePerformanceData performanceData = new InvoicePerformanceData();
-            performanceData.name = performanceName;
-            performanceData.amount = performanceAmount;
-            performanceData.audience = audience;
+            InvoicePerformanceData performanceData = createInvoicePerformanceData(plays, perf);
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private InvoicePerformanceData createInvoicePerformanceData(Map<String, Play> plays, Performance perf) {
+        String performanceName = perf.play(plays).name;
+        int performanceAmount = perf.amount(perf.play(plays)) / 100;
+        int audience = perf.audience;
+        InvoicePerformanceData performanceData = new InvoicePerformanceData();
+        performanceData.name = performanceName;
+        performanceData.amount = performanceAmount;
+        performanceData.audience = audience;
+        return performanceData;
     }
 
     private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
