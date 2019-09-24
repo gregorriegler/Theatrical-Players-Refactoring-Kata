@@ -21,24 +21,22 @@ public class StatementPrinter {
 
         InvoiceData invoiceData = new InvoiceData();
         invoiceData.customer = invoice.customer;
-
-        List<InvoicePerformanceData> performanceDataList = invoice.performances
+        invoiceData.performances = invoice.performances
             .stream()
             .map(perf -> InvoicePerformanceData.create(plays, perf))
             .collect(Collectors.toList());
-
-        invoiceData.performances = performanceDataList;
-        return asPrintableReport(invoiceData, totalAmount, volumeCredits);
+        invoiceData.totalAmount = totalAmount / 100;
+        return asPrintableReport(invoiceData, volumeCredits, totalAmount / 100);
     }
 
-    private String asPrintableReport(InvoiceData invoiceData, int totalAmount, int volumeCredits) {
+    private String asPrintableReport(InvoiceData invoiceData, int volumeCredits, int totalAmount) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoiceData.customer));
 
         for (var performanceData : invoiceData.performances) {
             result.append(String.format("  %s: %s (%s seats)\n", performanceData.name, frmt.format(performanceData.amount), performanceData.audience));
         }
 
-        result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
+        result.append(String.format("Amount owed is %s\n", frmt.format(invoiceData.totalAmount)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
     }
@@ -53,6 +51,7 @@ public class StatementPrinter {
     private class InvoiceData {
         public String customer;
         public List<InvoicePerformanceData> performances;
+        public int totalAmount;
     }
 
     private static class InvoicePerformanceData {
