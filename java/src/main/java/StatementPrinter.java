@@ -21,7 +21,8 @@ public class StatementPrinter {
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
             .collect(Collectors.toList());
 
-        return doPrint(new PerformanceData(invoice.customer, lineDataList, volumeCredits, totalAmount));
+        PerformanceData performanceData = new PerformanceData(invoice.customer, lineDataList, volumeCredits, totalAmount);
+        return doPrint(performanceData);
     }
 
     private String doPrint(PerformanceData performanceData) {
