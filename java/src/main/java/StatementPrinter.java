@@ -27,10 +27,11 @@ public class StatementPrinter {
 
     private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
         // add volume credits
-        volumeCredits += Math.max(perf.audience - 30, 0);
+        int volumeCredits1 = volumeCredits;
+        volumeCredits1 += Math.max(perf.audience - 30, 0);
         // add extra credit for every ten comedy attendees
-        if ("comedy".equals(plays.get(perf.playID).type)) volumeCredits += Math.floor(perf.audience / 5);
-        return volumeCredits;
+        if ("comedy".equals(plays.get(perf.playID).type)) volumeCredits1 += Math.floor(perf.audience / 5);
+        return volumeCredits1;
     }
 
     private int calcAmount(Performance perf, Play play) {
