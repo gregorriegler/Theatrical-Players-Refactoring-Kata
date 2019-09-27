@@ -9,8 +9,7 @@ public class StatementPrinter {
     private final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        PerformanceData performanceData = createPerformanceData(invoice, plays);
-        return doPrint(performanceData);
+        return doPrint(createPerformanceData(invoice, plays));
     }
 
     private PerformanceData createPerformanceData(Invoice invoice, Map<String, Play> plays) {
