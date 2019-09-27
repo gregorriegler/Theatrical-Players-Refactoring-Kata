@@ -18,7 +18,6 @@ public class StatementPrinter {
             totalAmount += calcAmount(perf, plays.get(perf.playID));
         }
 
-        // print line for this order
         List<LineData> lineDataList = invoice.performances.stream()
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
             .collect(Collectors.toList());
