@@ -10,7 +10,6 @@ public class StatementPrinter {
     public String print(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
         var volumeCredits = 0;
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
             volumeCredits += getVolumeCredits(plays, perf);
@@ -20,6 +19,8 @@ public class StatementPrinter {
         // print line for this order
         Stream<LineData> lineDataStream = invoice.performances.stream()
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience));
+        
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
         lineDataStream
             .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
             .forEach(result::append);
