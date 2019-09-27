@@ -1,6 +1,8 @@
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StatementPrinter {
@@ -19,13 +21,14 @@ public class StatementPrinter {
         // print line for this order
         Stream<LineData> lineDataStream = invoice.performances.stream()
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience));
+        List<LineData> lineDataList = lineDataStream.collect(Collectors.toList());
 
-        return doPrint(invoice.customer, lineDataStream, volumeCredits, totalAmount);
+        return doPrint(invoice.customer, lineDataStream, lineDataList, volumeCredits, totalAmount);
     }
 
-    private String doPrint(String customer, Stream<LineData> lineDataStream, int volumeCredits, int totalAmount) {
+    private String doPrint(String customer, Stream<LineData> lineDataStream, List<LineData> lineDataList, int volumeCredits, int totalAmount) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", customer));
-        lineDataStream
+        lineDataList.stream()
             .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
             .forEach(result::append);
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
