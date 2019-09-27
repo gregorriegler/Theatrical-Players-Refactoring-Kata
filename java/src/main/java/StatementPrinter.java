@@ -20,11 +20,11 @@ public class StatementPrinter {
         Stream<LineData> lineDataStream = invoice.performances.stream()
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience));
 
-        return doPrint(invoice, totalAmount, volumeCredits, lineDataStream);
+        return doPrint(totalAmount, volumeCredits, lineDataStream, invoice.customer);
     }
 
-    private String doPrint(Invoice invoice, int totalAmount, int volumeCredits, Stream<LineData> lineDataStream) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
+    private String doPrint(int totalAmount, int volumeCredits, Stream<LineData> lineDataStream, String customer) {
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", customer));
         lineDataStream
             .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
             .forEach(result::append);
