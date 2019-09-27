@@ -23,10 +23,10 @@ public class StatementPrinter {
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience));
         List<LineData> lineDataList = lineDataStream.collect(Collectors.toList());
 
-        return doPrint(invoice.customer, lineDataStream, lineDataList, volumeCredits, totalAmount);
+        return doPrint(invoice.customer, lineDataList, volumeCredits, totalAmount);
     }
 
-    private String doPrint(String customer, Stream<LineData> lineDataStream, List<LineData> lineDataList, int volumeCredits, int totalAmount) {
+    private String doPrint(String customer, List<LineData> lineDataList, int volumeCredits, int totalAmount) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", customer));
         lineDataList.stream()
             .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
