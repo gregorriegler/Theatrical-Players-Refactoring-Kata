@@ -16,11 +16,11 @@ public class StatementPrinter {
             totalAmount += calcAmount(perf, plays.get(perf.playID));
         }
 
-        for (var perf : invoice.performances) {
-            // print line for this order
-            LineData lineData = new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience);
-            result.append(String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()));
-        }
+        // print line for this order
+        invoice.performances.stream()
+            .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
+            .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
+            .forEach(result::append);
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
