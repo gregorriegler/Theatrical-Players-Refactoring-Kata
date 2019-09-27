@@ -13,7 +13,7 @@ public class StatementPrinter {
 
         for (var perf : invoice.performances) {
             int thisAmount = calcAmount(perf, plays.get(perf.playID));
-            volumeCredits = addVolumeCredits(plays, volumeCredits, perf);
+            volumeCredits += addVolumeCredits(plays, volumeCredits, perf);
 
             // print line for this order
             LineData lineData = new LineData(plays.get(perf.playID).name, thisAmount / 100, perf.audience);
@@ -27,7 +27,7 @@ public class StatementPrinter {
 
     private int addVolumeCredits(Map<String, Play> plays, int volumeCredits, Performance perf) {
         // add volume credits
-        int volumeCredits1 = volumeCredits;
+        int volumeCredits1 = 0;
         volumeCredits1 += Math.max(perf.audience - 30, 0);
         // add extra credit for every ten comedy attendees
         if ("comedy".equals(plays.get(perf.playID).type)) volumeCredits1 += Math.floor(perf.audience / 5);
