@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StatementPrinter {
 
@@ -22,16 +21,16 @@ public class StatementPrinter {
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
             .collect(Collectors.toList());
 
-        return doPrint(invoice.customer, lineDataList, volumeCredits, totalAmount);
+        return doPrint(new PerformanceData(invoice.customer, lineDataList, volumeCredits, totalAmount));
     }
 
-    private String doPrint(String customer, List<LineData> lineDataList, int volumeCredits, int totalAmount) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", customer));
-        lineDataList.stream()
+    private String doPrint(PerformanceData performanceData) {
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", performanceData.getCustomer()));
+        performanceData.getLineDataList().stream()
             .map(lineData -> String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()))
             .forEach(result::append);
-        result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
-        result.append(String.format("You earned %s credits\n", volumeCredits));
+        result.append(String.format("Amount owed is %s\n", frmt.format(performanceData.getTotalAmount() / 100)));
+        result.append(String.format("You earned %s credits\n", performanceData.getVolumeCredits()));
         return result.toString();
     }
 
@@ -88,6 +87,36 @@ public class StatementPrinter {
 
         public int getAudience() {
             return audience;
+        }
+    }
+
+    private static class PerformanceData {
+        private final String customer;
+        private final List<LineData> lineDataList;
+        private final int volumeCredits;
+        private final int totalAmount;
+
+        private PerformanceData(String customer, List<LineData> lineDataList, int volumeCredits, int totalAmount) {
+            this.customer = customer;
+            this.lineDataList = lineDataList;
+            this.volumeCredits = volumeCredits;
+            this.totalAmount = totalAmount;
+        }
+
+        public String getCustomer() {
+            return customer;
+        }
+
+        public List<LineData> getLineDataList() {
+            return lineDataList;
+        }
+
+        public int getVolumeCredits() {
+            return volumeCredits;
+        }
+
+        public int getTotalAmount() {
+            return totalAmount;
         }
     }
 }
