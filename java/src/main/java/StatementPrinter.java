@@ -9,6 +9,11 @@ public class StatementPrinter {
     private final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
     public String print(Invoice invoice, Map<String, Play> plays) {
+        PerformanceData performanceData = createPerformanceData(invoice, plays);
+        return doPrint(performanceData);
+    }
+
+    private PerformanceData createPerformanceData(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
         var volumeCredits = 0;
 
@@ -21,8 +26,7 @@ public class StatementPrinter {
             .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
             .collect(Collectors.toList());
 
-        PerformanceData performanceData = new PerformanceData(invoice.customer, lineDataList, volumeCredits, totalAmount);
-        return doPrint(performanceData);
+        return new PerformanceData(invoice.customer, lineDataList, volumeCredits, totalAmount);
     }
 
     private String doPrint(PerformanceData performanceData) {
