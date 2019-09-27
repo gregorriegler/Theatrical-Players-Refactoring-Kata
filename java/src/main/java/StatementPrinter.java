@@ -14,7 +14,9 @@ public class StatementPrinter {
         for (var perf : invoice.performances) {
             volumeCredits += getVolumeCredits(plays, perf);
             totalAmount += calcAmount(perf, plays.get(perf.playID));
+        }
 
+        for (var perf : invoice.performances) {
             // print line for this order
             LineData lineData = new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience);
             result.append(String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()));
