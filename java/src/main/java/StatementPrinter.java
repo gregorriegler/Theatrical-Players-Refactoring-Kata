@@ -12,16 +12,15 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
 
         for (var perf : invoice.performances) {
-            var play = plays.get(perf.playID);
-            int thisAmount = calcAmount(perf, play);
+            int thisAmount = calcAmount(perf, plays.get(perf.playID));
 
             // add volume credits
             volumeCredits += Math.max(perf.audience - 30, 0);
             // add extra credit for every ten comedy attendees
-            if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+            if ("comedy".equals(plays.get(perf.playID).type)) volumeCredits += Math.floor(perf.audience / 5);
 
             // print line for this order
-            LineData lineData = new LineData(play.name, thisAmount / 100, perf.audience);
+            LineData lineData = new LineData(plays.get(perf.playID).name, thisAmount / 100, perf.audience);
             result.append(String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()));
             totalAmount += thisAmount;
         }
