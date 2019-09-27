@@ -39,7 +39,7 @@ public class StatementPrinter {
             if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
 
             // print line for this order
-            printLine(result, play.name, thisAmount / 100, perf.audience);
+            printLine(result, new LineData(play.name, thisAmount / 100, perf.audience));
             totalAmount += thisAmount;
         }
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
@@ -47,8 +47,31 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private void printLine(StringBuilder result, String playName, int amount, int audience) {
-        result.append(String.format("  %s: %s (%s seats)\n", playName, frmt.format(amount), audience));
+    private void printLine(StringBuilder result, LineData lineData) {
+        result.append(String.format("  %s: %s (%s seats)\n", lineData.getPlayName(), frmt.format(lineData.getAmount()), lineData.getAudience()));
     }
 
+    private static class LineData {
+        private final String playName;
+        private final int amount;
+        private final int audience;
+
+        private LineData(String playName, int amount, int audience) {
+            this.playName = playName;
+            this.amount = amount;
+            this.audience = audience;
+        }
+
+        public String getPlayName() {
+            return playName;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public int getAudience() {
+            return audience;
+        }
+    }
 }
