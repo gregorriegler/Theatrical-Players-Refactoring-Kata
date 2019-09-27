@@ -19,9 +19,9 @@ public class StatementPrinter {
         }
 
         // print line for this order
-        Stream<LineData> lineDataStream = invoice.performances.stream()
-            .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience));
-        List<LineData> lineDataList = lineDataStream.collect(Collectors.toList());
+        List<LineData> lineDataList = invoice.performances.stream()
+            .map(perf -> new LineData(plays.get(perf.playID).name, calcAmount(perf, plays.get(perf.playID)) / 100, perf.audience))
+            .collect(Collectors.toList());
 
         return doPrint(invoice.customer, lineDataList, volumeCredits, totalAmount);
     }
