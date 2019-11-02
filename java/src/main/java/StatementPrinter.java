@@ -9,7 +9,7 @@ public class StatementPrinter {
         var volumeCredits = 0;
         var result = String.format("Statement for %s\n", invoice.customer);
 
-        NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (var perf : invoice.performances) {
             var play = plays.get(perf.playID);
@@ -39,11 +39,11 @@ public class StatementPrinter {
             if ("comedy".equals(play.type)) thisCredits += Math.floor((double) perf.audience / 5);
 
             // print line for this order
-            result += String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount / 100), perf.audience);
+            result += String.format("  %s: %s (%s seats)\n", play.name, format.format(thisAmount / 100), perf.audience);
             totalAmount += thisAmount;
             volumeCredits += thisCredits;
         }
-        result += String.format("Amount owed is %s\n", frmt.format(totalAmount / 100));
+        result += String.format("Amount owed is %s\n", format.format(totalAmount / 100));
         result += String.format("You earned %s credits\n", volumeCredits);
         return result;
     }
