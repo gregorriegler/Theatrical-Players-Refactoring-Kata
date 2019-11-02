@@ -34,13 +34,14 @@ public class StatementPrinter {
             }
 
             // add volume credits
-            volumeCredits += Math.max(perf.audience - 30, 0);
+            var thisCredits = Math.max(perf.audience - 30, 0);
             // add extra credit for every ten comedy attendees
-            if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+            if ("comedy".equals(play.type)) thisCredits += Math.floor((double) perf.audience / 5);
 
             // print line for this order
             result += String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount / 100), perf.audience);
             totalAmount += thisAmount;
+            volumeCredits += thisCredits;
         }
         result += String.format("Amount owed is %s\n", frmt.format(totalAmount / 100));
         result += String.format("You earned %s credits\n", volumeCredits);
