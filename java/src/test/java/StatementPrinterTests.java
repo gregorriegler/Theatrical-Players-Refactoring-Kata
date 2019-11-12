@@ -1,5 +1,6 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.approvaltests.reporters.DiffReporter;
+import org.approvaltests.reporters.UseReporter;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,8 @@ import static org.approvaltests.Approvals.verify;
 public class StatementPrinterTests {
 
     @Test
-    void exampleStatement() {
+    @UseReporter(DiffReporter.class)
+    public void exampleStatement() {
         Map<String, Play> plays = Map.of(
                 "hamlet",  new Play("Hamlet", "tragedy"),
                 "as-like", new Play("As You Like It", "comedy"),
@@ -26,8 +28,8 @@ public class StatementPrinterTests {
         verify(result);
     }
 
-    @Test
-    void statementWithNewPlayTypes() {
+    @Test(expected = Error.class)
+    public void statementWithNewPlayTypes() {
         Map<String, Play> plays = Map.of(
                 "henry-v",  new Play("Henry V", "history"),
                 "as-like", new Play("As You Like It", "pastoral"));
@@ -37,8 +39,6 @@ public class StatementPrinterTests {
                 new Performance("as-like", 55)));
 
         StatementPrinter statementPrinter = new StatementPrinter();
-        Assertions.assertThrows(Error.class, () -> {
-            statementPrinter.print(invoice, plays);
-        });
+        statementPrinter.print(invoice, plays);
     }
 }

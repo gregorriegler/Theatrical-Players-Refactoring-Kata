@@ -8,14 +8,7 @@ repositories {
     mavenCentral()
 }
 
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
 dependencies {
-    testCompile 'org.junit.jupiter:junit-jupiter:5.5.1'
+    testCompile 'junit:junit:4.12'
     testCompile 'com.approvaltests:approvaltests:3.2.0'
 }
