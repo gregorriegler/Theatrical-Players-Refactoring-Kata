@@ -1,4 +1,4 @@
-import org.approvaltests.reporters.DiffReporter;
+import org.approvaltests.reporters.JunitReporter;
 import org.approvaltests.reporters.UseReporter;
 import org.junit.Test;
 
@@ -7,10 +7,10 @@ import java.util.Map;
 
 import static org.approvaltests.Approvals.verify;
 
+@UseReporter(JunitReporter.class)
 public class StatementPrinterTests {
 
     @Test
-    @UseReporter(DiffReporter.class)
     public void exampleStatement() {
         Map<String, Play> plays = Map.of(
                 "hamlet",  new Play("Hamlet", "tragedy"),

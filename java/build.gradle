@@ -1,3 +1,7 @@
+plugins {
+    id "de.dplatz.clear" version "0.3"
+}
+
 apply plugin: 'java'
 
 group 'kata'
@@ -11,4 +15,10 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'com.approvaltests:approvaltests:3.2.0'
+}
+
+test {
+    testLogging {
+        exceptionFormat "full"
+    }
 }
