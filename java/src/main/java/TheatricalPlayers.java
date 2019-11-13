@@ -2,7 +2,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
-public class StatementPrinter {
+public class TheatricalPlayers {
 
     public String print(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;

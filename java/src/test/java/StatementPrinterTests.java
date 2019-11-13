@@ -22,8 +22,8 @@ public class StatementPrinterTests {
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));
 
-        StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice, plays);
+        TheatricalPlayers theatricalPlayers = new TheatricalPlayers();
+        var result = theatricalPlayers.print(invoice, plays);
 
         verify(result);
     }
@@ -38,7 +38,7 @@ public class StatementPrinterTests {
                 new Performance("henry-v", 53),
                 new Performance("as-like", 55)));
 
-        StatementPrinter statementPrinter = new StatementPrinter();
-        statementPrinter.print(invoice, plays);
+        TheatricalPlayers theatricalPlayers = new TheatricalPlayers();
+        theatricalPlayers.print(invoice, plays);
     }
 }
