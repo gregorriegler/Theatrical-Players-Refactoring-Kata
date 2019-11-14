@@ -8,7 +8,7 @@ import java.util.Map;
 import static org.approvaltests.Approvals.verify;
 
 @UseReporter(JunitReporter.class)
-public class StatementPrinterTests {
+public class TheatricalPlayersTests {
 
     @Test
     public void exampleStatement() {
